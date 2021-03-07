@@ -23,7 +23,7 @@
     ]
   },
   "mixins": [
-    ""
+    "gps.mixins.json"
   ],
 
   "depends": {

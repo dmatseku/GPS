@@ -1,12 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.fabricmc.example.mixin",
+  "package": "net.dmatseku.gps.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
-    "net.dmatseku.gps.mixin.ExampleMixin"
+    "ClientPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
