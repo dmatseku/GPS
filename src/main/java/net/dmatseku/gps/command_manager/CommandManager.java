@@ -19,7 +19,7 @@ public class CommandManager {
 
     private final ArrayList<ICommand> commands = new ArrayList<>();
 
-    void registerListener(ICommand command) {
+    public void registerListener(ICommand command) {
         commands.add(command);
     }
 
@@ -78,10 +78,10 @@ public class CommandManager {
     }
 
     private static void invalidCommand(String command) {
-        CommandChat.commandError("Command \"" + command + "\" not found");
+        CommandChat.globalError("Command \"" + command + "\" not found");
     }
 
     private static void noLoadedCommands() {
-        CommandChat.commandError("No loaded commands found");
+        CommandChat.globalError("No loaded commands found");
     }
 }

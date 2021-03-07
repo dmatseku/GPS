@@ -9,6 +9,7 @@ public interface ICommand {
     String              getCommandName();
     ArrayList<String>   getCommandAliases();
     ArrayList<String>   getArguments();
+    String              getArgument(int index);
     String              getUsage();
     String              getArgumentsClarification();
 }

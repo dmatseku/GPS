@@ -30,8 +30,19 @@ public class UsageBuilder {
         return this;
     }
 
-    public UsageBuilder addArgumentClarification(String argName, String description) {
-        result.append('\n').append(argName).append(" - ").append(description);
+    public UsageBuilder addRequiredArgumentClarification(String argName, String description) {
+        result.append('\n')
+                .append(openRequired).append(argName).append(closeRequired)
+                .append(" - ")
+                .append(description);
+        return this;
+    }
+
+    public UsageBuilder addAdditionalArgumentClarification(String argName, String description) {
+        result.append('\n')
+                .append(openAdditional).append(argName).append(closeAdditional)
+                .append(" - ")
+                .append(description);
         return this;
     }
 

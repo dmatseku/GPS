@@ -1,4 +1,4 @@
-package net.dmatseku.gps.command_manager.commands;
+package net.dmatseku.gps.commands;
 
 import net.dmatseku.gps.command_manager.*;
 import net.dmatseku.gps.command_manager.ArgumentsManager.Arguments;
@@ -34,14 +34,14 @@ public class Help extends Command {
     @Override
     public String getArgumentsClarification() {
         return UsageBuilder.createArgumentsClarification()
-                .addArgumentClarification("command name", "name of the command")
+                .addAdditionalArgumentClarification("command name", "name of the command")
                 .build();
     }
 
     @Override
     public void execute() {
-        if (this.getArguments().get(0) != null) {
-            helpCommand(this.getArguments().get(0));
+        if (this.getArgument(0) != null) {
+            helpCommand(this.getArgument(0));
         } else {
             helpList();
         }

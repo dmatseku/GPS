@@ -40,6 +40,14 @@ public abstract class Command implements ICommand {
     }
 
     @Override
+    public String getArgument(int index) {
+        if (index < arguments.size()) {
+            return arguments.get(index);
+        }
+        return null;
+    }
+
+    @Override
     public boolean commandValidate(String name) {
         if (name.equals(commandName)) {
             return true;
@@ -58,7 +66,7 @@ public abstract class Command implements ICommand {
         try {
             this.arguments = argumentsManager.validateArguments(arguments);
         } catch (ArgumentsManager.ArgumentException e) {
-            CommandChat.argumentError(e.getMessage(), commandName);
+            CommandChat.commandError(e.getMessage(), commandName);
             return false;
         }
         return true;
