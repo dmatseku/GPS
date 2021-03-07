@@ -43,7 +43,7 @@ public class File extends Command {
             Scanner file = new Scanner(new java.io.File(this.getArgument(0)));
 
             while (file.hasNextLine()) {
-                CommandChat.sendMessage(file.nextLine());
+                CommandChat.sendChatMessage(file.nextLine());
             }
             file.close();
         } catch (FileNotFoundException e) {

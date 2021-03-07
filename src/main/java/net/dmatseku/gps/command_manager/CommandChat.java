@@ -13,9 +13,9 @@ public class CommandChat {
         }
     }
 
-    public static void sendMessage(String message) {
+    public static void sendChatMessage(String message) {
         if (client.player != null) {
-            client.inGameHud.addChatMessage(MessageType.CHAT, new LiteralText(message), client.player.getUuid());
+            client.player.sendChatMessage(message);
         }
     }
 
