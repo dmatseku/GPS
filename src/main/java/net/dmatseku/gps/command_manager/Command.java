@@ -2,41 +2,65 @@ package net.dmatseku.gps.command_manager;
 
 import java.util.ArrayList;
 
-public abstract class Command implements ICommand, ICommandHelp {
+public abstract class Command implements ICommand {
 
-    protected String            commandName = "";
-    protected ArgumentsBuilder  argumentsBuilder = new ArgumentsBuilder();
-    protected ArrayList<String> arguments;
+    private String                  commandName;
+    private final ArrayList<String> commandAliases = new ArrayList<>();
+    private final ArgumentsManager  argumentsManager;
+    private ArrayList<String>       arguments;
 
+    public Command() {
+        commandName = setCommandName();
+        setCommandAliases(commandAliases);
+        argumentsManager = setArguments();
+        if (argumentsManager == null || commandName == null) {
+            throw new NullPointerException("ArgumentsManager and CommandName can't be null");
+        }
+    }
+
+    protected abstract String setCommandName();
+
+    protected abstract ArgumentsManager setArguments();
+
+    protected void setCommandAliases(ArrayList<String> aliases) { }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
+    }
+
+    @Override
+    public ArrayList<String>   getCommandAliases() {
+        return commandAliases;
+    }
+
+    @Override
+    public ArrayList<String> getArguments() {
+        return arguments;
+    }
 
     @Override
     public boolean commandValidate(String name) {
-        return name.equals(commandName);
+        if (name.equals(commandName)) {
+            return true;
+        } else {
+            for (String alias : commandAliases) {
+                if (alias.equals(name)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean argumentsValidate(ArrayList<String> arguments) {
         try {
-            this.arguments = argumentsBuilder.validateArguments(arguments);
-        } catch (ArgumentsBuilder.ArgumentException e) {
-            System.out.println(e.getMessage());
+            this.arguments = argumentsManager.validateArguments(arguments);
+        } catch (ArgumentsManager.ArgumentException e) {
+            CommandChat.argumentError(e.getMessage(), commandName);
             return false;
         }
         return true;
-    }
-
-    @Override
-    public void argumentsError(StringCommand command) {
-        //TODO call error
-    }
-
-    @Override
-    public String getUsage() {
-        return commandName;
-    }
-
-    @Override
-    public String getArgumentsExplanation() {
-        return null;
     }
 }

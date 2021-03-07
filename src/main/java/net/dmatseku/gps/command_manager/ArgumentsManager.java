@@ -3,7 +3,7 @@ package net.dmatseku.gps.command_manager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ArgumentsBuilder {
+public class ArgumentsManager {
 
     public enum Arguments {
         STRING,
@@ -26,9 +26,9 @@ public class ArgumentsBuilder {
 
     private final HashMap<Arguments, Validator> validatorList = new HashMap<>();
 
-    public ArgumentsBuilder() {
-        validatorList.put(Arguments.STRING, ArgumentsBuilder::validateString);
-        validatorList.put(Arguments.INT, ArgumentsBuilder::validateInt);
+    public ArgumentsManager() {
+        validatorList.put(Arguments.STRING, ArgumentsManager::validateString);
+        validatorList.put(Arguments.INT, ArgumentsManager::validateInt);
     }
 
     private static boolean validateString(String value) {
@@ -52,7 +52,7 @@ public class ArgumentsBuilder {
     private final ArrayList<Arguments>  pattern = new ArrayList<>();
     private final ArrayList<Require>    requirement = new ArrayList<>();
 
-    public ArgumentsBuilder addArgument(Arguments argument, Require requirement) {
+    public ArgumentsManager addArgument(Arguments argument, Require requirement) {
         pattern.add(argument);
         this.requirement.add(requirement);
         return this;

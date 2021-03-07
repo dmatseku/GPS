@@ -17,7 +17,7 @@ public class CommandManager {
 
     private CommandManager() {}
 
-    private final ArrayList<ICommand> commands = new ArrayList<ICommand>();
+    private final ArrayList<ICommand> commands = new ArrayList<>();
 
     void registerListener(ICommand command) {
         commands.add(command);
@@ -43,7 +43,7 @@ public class CommandManager {
         return false;
     }
 
-    private ICommand getCommand(String name) {
+    public ICommand getCommand(String name) {
         for (ICommand command : commands) {
             if (command.commandValidate(name)) {
                 return (command);
@@ -51,12 +51,17 @@ public class CommandManager {
         }
         return null;
     }
+    public ArrayList<String> getAllCommands() {
+        ArrayList<String> result = new ArrayList<>();
+        for (ICommand command : commands) {
+            result.add(command.getCommandName());
+        }
+        return result;
+    }
 
     private void triggerCommand(ICommand command, StringCommand strCommand) {
         if (command.argumentsValidate(strCommand.getArguments())) {
-            command.execute(strCommand);
-        } else {
-            command.argumentsError(strCommand);
+            command.execute();
         }
     }
 
@@ -73,10 +78,10 @@ public class CommandManager {
     }
 
     private static void invalidCommand(String command) {
-        //TODO: complete calling error
+        CommandChat.commandError("Command \"" + command + "\" not found");
     }
 
     private static void noLoadedCommands() {
-        //TODO: complete calling error
+        CommandChat.commandError("No loaded commands found");
     }
 }
