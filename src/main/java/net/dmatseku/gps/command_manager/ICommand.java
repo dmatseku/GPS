@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface ICommand {
     boolean             commandValidate(String name);
-    boolean             argumentsValidate(ArrayList<String> arguments);
+    void             argumentsValidate(ArrayList<String> arguments);
     void                execute();
     String              getCommandName();
     ArrayList<String>   getCommandAliases();

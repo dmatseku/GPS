@@ -1,5 +1,10 @@
 package net.dmatseku.gps.command_manager;
 
+import net.dmatseku.gps.Chat;
+import net.dmatseku.gps.command_manager.exception.AbstractCommandException;
+import net.dmatseku.gps.command_manager.exception.CommandException;
+import net.dmatseku.gps.command_manager.exception.GlobalException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -25,17 +30,21 @@ public class CommandManager {
 
     public boolean handleInput(String message) {
         if (inspectMessage(message)) {
-            StringCommand strCommand = getStringCommand(new ArrayList<>(Arrays.asList(message.split("\\s"))));
+            try {
+                StringCommand strCommand = getStringCommand(new ArrayList<>(Arrays.asList(message.split("\\s"))));
 
-            ICommand command = this.getCommand(strCommand.getCommand());
-            if (command != null) {
-                triggerCommand(command, strCommand);
-            } else {
-                if (!commands.isEmpty()) {
-                    invalidCommand(strCommand.getCommand());
+                ICommand command = this.getCommand(strCommand.getCommand());
+                if (command != null) {
+                    triggerCommand(command, strCommand);
                 } else {
-                    noLoadedCommands();
+                    if (!commands.isEmpty()) {
+                        invalidCommand(strCommand.getCommand());
+                    } else {
+                        noLoadedCommands();
+                    }
                 }
+            } catch (AbstractCommandException e) {
+                Chat.sendSystemMessage(e.getMessage());
             }
 
             return true;
@@ -60,9 +69,8 @@ public class CommandManager {
     }
 
     private void triggerCommand(ICommand command, StringCommand strCommand) {
-        if (command.argumentsValidate(strCommand.getArguments())) {
-            command.execute();
-        }
+        command.argumentsValidate(strCommand.getArguments());
+        command.execute();
     }
 
     private static StringCommand getStringCommand(ArrayList<String> parts) {
@@ -78,10 +86,10 @@ public class CommandManager {
     }
 
     private static void invalidCommand(String command) {
-        CommandChat.globalError("Command \"" + command + "\" not found");
+        throw new GlobalException("Command \"" + command + "\" not found");
     }
 
     private static void noLoadedCommands() {
-        CommandChat.globalError("No loaded commands found");
+        throw new GlobalException("No loaded commands found");
     }
 }

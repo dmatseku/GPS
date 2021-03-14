@@ -3,6 +3,9 @@ package net.dmatseku.gps.commands;
 import net.dmatseku.gps.command_manager.*;
 import net.dmatseku.gps.command_manager.ArgumentsManager.Arguments;
 import net.dmatseku.gps.command_manager.ArgumentsManager.Require;
+import net.dmatseku.gps.Chat;
+import net.dmatseku.gps.command_manager.exception.ArgumentException;
+import net.dmatseku.gps.command_manager.exception.CommandException;
 
 import java.util.ArrayList;
 
@@ -47,7 +50,7 @@ public class Help extends Command {
         }
     }
 
-    private static void helpCommand(String commandName) {
+    private void helpCommand(String commandName) {
         ICommand command = CommandManager.getInstance().getCommand(commandName);
 
         if (command != null) {
@@ -56,10 +59,9 @@ public class Help extends Command {
             if (command.getArgumentsClarification() != null) {
                 message += "\n\nArguments:" + command.getArgumentsClarification();
             }
-            CommandChat.sendSystemMessage(message);
+            Chat.sendSystemMessage(message);
         } else {
-            String message = "GPS \"" + commandName + "\": command not found";
-            CommandChat.sendSystemMessage(message);
+            throw new ArgumentException("command \"" + commandName + "\" not found", this.getCommandName(), 1, false);
         }
     }
 
@@ -70,6 +72,6 @@ public class Help extends Command {
         for (String name : list) {
             message.append("\n").append(name);
         }
-        CommandChat.sendSystemMessage(message.toString());
+        Chat.sendSystemMessage(message.toString());
     }
 }

@@ -1,5 +1,7 @@
 package net.dmatseku.gps.command_manager;
 
+import net.dmatseku.gps.command_manager.exception.CommandException;
+
 import java.util.ArrayList;
 
 public abstract class Command implements ICommand {
@@ -62,13 +64,11 @@ public abstract class Command implements ICommand {
     }
 
     @Override
-    public boolean argumentsValidate(ArrayList<String> arguments) {
+    public void argumentsValidate(ArrayList<String> arguments) {
         try {
             this.arguments = argumentsManager.validateArguments(arguments);
         } catch (ArgumentsManager.ArgumentException e) {
-            CommandChat.commandError(e.getMessage(), commandName);
-            return false;
+            throw new CommandException(e.getMessage(), commandName);
         }
-        return true;
     }
 }

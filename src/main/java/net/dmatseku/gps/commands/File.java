@@ -4,8 +4,10 @@ import net.dmatseku.gps.command_manager.ArgumentsManager;
 import net.dmatseku.gps.command_manager.Command;
 import net.dmatseku.gps.command_manager.ArgumentsManager.Arguments;
 import net.dmatseku.gps.command_manager.ArgumentsManager.Require;
-import net.dmatseku.gps.command_manager.CommandChat;
+import net.dmatseku.gps.Chat;
 import net.dmatseku.gps.command_manager.UsageBuilder;
+import net.dmatseku.gps.command_manager.exception.ArgumentException;
+
 import java.io.*;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -43,11 +45,11 @@ public class File extends Command {
             Scanner file = new Scanner(new java.io.File(this.getArgument(0)));
 
             while (file.hasNextLine()) {
-                CommandChat.sendChatMessage(file.nextLine());
+                Chat.sendChatMessage(file.nextLine());
             }
             file.close();
         } catch (FileNotFoundException e) {
-            CommandChat.argumentError("File not found", this.getCommandName(), 1);
+            throw new ArgumentException("File not found", this.getCommandName(), 1, true);
         }
     }
 }
